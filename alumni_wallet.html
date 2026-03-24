@@ -1,0 +1,147 @@
+<!doctype html>
+<html>
+<head>
+<title>Alumni Wallet</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{background:#c6aa58}
+</style>
+
+</head>
+
+<body>
+
+<nav class="bg-[#FFFBF5] p-4 flex justify-between items-center">
+
+<a href="{% url 'alumni_home' %}"
+class="bg-green-900 text-white px-4 py-2 rounded">
+
+← Back to Home
+
+</a>
+
+<h1 class="text-xl font-bold text-green-900">
+Alumni Wallet
+</h1>
+
+</nav>
+
+
+
+<!-- WALLET CARD -->
+<div class="max-w-xl mx-auto mt-10 bg-white p-8 rounded-2xl shadow">
+
+<div class="text-center mb-8">
+
+<h2 class="text-3xl font-bold text-green-900">
+₹{{ wallet.balance }}
+</h2>
+
+<p class="text-gray-500">
+Current Balance
+</p>
+
+</div>
+
+
+<div class="bg-green-50 p-4 rounded-xl mb-6">
+
+<p class="font-medium">
+Total Received: <span class="text-green-700 font-bold">₹{{ total_received }}</span>
+</p>
+
+<p>
+Last Topup: ₹{{ wallet.topup_amount|default:"0" }}
+</p>
+
+<p>
+Date: {{ wallet.created_at|default:"No topup yet" }}
+</p>
+
+</div>
+
+
+
+<form method="POST" action="{% url 'alumni_wallet_topup' %}">
+
+{% csrf_token %}
+
+<input
+type="number"
+step="0.01"
+name="amount"
+placeholder="Enter amount"
+class="w-full border p-3 rounded mb-4"
+required
+>
+
+<button class="w-full bg-orange-500 text-white py-3 rounded-xl hover:opacity-90">
+
+Add Money
+
+</button>
+
+</form>
+
+</div>
+
+
+
+<!-- PAYMENT HISTORY -->
+<div class="max-w-4xl mx-auto mt-10 bg-white p-6 rounded-2xl shadow">
+
+<h2 class="text-xl font-bold mb-4 text-green-900">
+Received Payments
+</h2>
+
+<table class="w-full border">
+
+<tr class="bg-green-900 text-white">
+
+<th class="p-2">From</th>
+<th class="p-2">Product</th>
+<th class="p-2">Amount</th>
+<th class="p-2">Date</th>
+
+</tr>
+
+{% for p in payments %}
+
+<tr class="border text-center hover:bg-gray-50">
+
+<td class="p-2">
+{{ p.buyer.username }}
+</td>
+
+<td class="p-2">
+{{ p.product.name }}
+</td>
+
+<td class="p-2 text-green-700 font-semibold">
++ ₹{{ p.amount }}
+</td>
+
+<td class="p-2">
+{{ p.paid_at|date:"d M Y H:i" }}
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="4" class="p-6 text-center text-gray-500">
+No payments received yet
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

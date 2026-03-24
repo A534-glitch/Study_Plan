@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+<head>
+<title>Product Requests</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{background:#c6aa58}</style>
+</head>
+
+<body>
+
+<nav class="bg-[#FFFBF5] p-4 flex justify-between">
+<a href="{% url 'alumni_products' %}" class="bg-green-900 text-white px-4 py-2 rounded">
+← Back 
+</a>
+<h1 class="text-xl font-bold">{{ product.name }} Requests</h1>
+</nav>
+
+<div class="max-w-5xl mx-auto mt-10 space-y-8">
+
+<!-- BUY REQUESTS -->
+<div class="bg-white p-6 rounded-xl shadow">
+<h2 class="text-xl font-bold mb-4">Buy Requests</h2>
+
+{% if buy_requests %}
+    {% for r in buy_requests %}
+    <div class="flex justify-between items-center border-b py-3">
+
+        <p>{{ r.user.username }} wants to buy for ₹{{ r.amount }}</p>
+
+        <div class="space-x-2">
+            <a href="{% url 'approve_buy' r.id %}" class="bg-green-600 text-white px-3 py-1 rounded">Accept</a>
+            <a href="{% url 'reject_buy' r.id %}" class="bg-red-600 text-white px-3 py-1 rounded">Reject</a>
+        </div>
+
+    </div>
+    {% empty %}
+        <p class="text-gray-500">No buy requests</p>
+    {% endfor %}
+{% else %}
+    <p class="text-gray-500">No buy requests</p>
+{% endif %}
+
+</div>
+
+
+<!-- LEASE REQUESTS -->
+<div class="bg-white p-6 rounded-xl shadow">
+<h2 class="text-xl font-bold mb-4">Lease Requests</h2>
+
+{% if lease_requests %}
+    {% for r in lease_requests %}
+    <div class="flex justify-between items-center border-b py-3">
+
+        <p>{{ r.student.username }} requested lease</p>
+
+        <div class="space-x-2">
+            <a href="{% url 'approve_lease' r.id %}" class="bg-green-600 text-white px-3 py-1 rounded">Approve</a>
+            <a href="{% url 'reject_lease' r.id %}" class="bg-red-600 text-white px-3 py-1 rounded">Reject</a>
+        </div>
+
+    </div>
+    {% empty %}
+        <p class="text-gray-500">No lease requests</p>
+    {% endfor %}
+{% else %}
+    <p class="text-gray-500">No lease requests</p>
+{% endif %}
+
+</div>
+
+
+<!-- BARGAIN REQUESTS -->
+<div class="bg-white p-6 rounded-xl shadow">
+<h2 class="text-xl font-bold mb-4">Bargain Requests</h2>
+
+{% if bargain_requests %}
+    {% for r in bargain_requests %}
+    <div class="flex justify-between items-center border-b py-3">
+
+        <p>{{ r.student.first_name }} {{ r.student.last_name }} offered ₹{{ r.student_price }}</p>
+
+        <div class="space-x-2">
+            <a href="{% url 'accept_bargain' r.id %}" class="bg-green-600 text-white px-3 py-1 rounded">Accept</a>
+            <a href="{% url 'reject_bargain' r.id %}" class="bg-red-600 text-white px-3 py-1 rounded">Reject</a>
+            <a href="{% url 'counter_bargain' r.id %}" class="bg-yellow-500 text-white px-3 py-1 rounded">Counter</a>
+        </div>
+
+    </div>
+    {% empty %}
+        <p class="text-gray-500">No bargain requests</p>
+    {% endfor %}
+{% else %}
+    <p class="text-gray-500">No bargain requests</p>
+{% endif %}
+
+</div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!doctype html>
+<html>
+<head>
+<title>My Purchases</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{background:#c6aa58}
+</style>
+</head>
+
+<body>
+
+<nav class="bg-[#FFFBF5] p-4 flex justify-between">
+<a href="{% url 'student_home' %}" class="bg-green-900 text-white px-4 py-2 rounded">
+← Back to Home
+</a>
+<h1 class="text-xl font-bold">My Purchases</h1>
+</nav>
+
+<div class="max-w-6xl mx-auto mt-10 grid md:grid-cols-3 gap-8">
+
+{% for order in orders %}
+
+<div class="bg-white p-6 rounded-2xl shadow">
+
+    <img src="{{ order.product.image.url }}" class="h-48 w-full object-cover rounded-xl">
+
+    <h2 class="text-xl font-bold mt-4">{{ order.product.name }}</h2>
+
+    <p class="text-gray-600 mt-2">
+        Bought From: <span class="font-semibold">{{ order.alumni.username }}</span>
+    </p>
+
+    <p class="text-green-700 font-bold text-lg mt-2">
+        ₹{{ order.price }}
+    </p>
+
+    <p class="text-gray-500 mt-2">
+        Date: {{ order.approved_at|date:"d M Y - h:i A" }}
+    </p>
+
+    <span class="inline-block mt-3 px-3 py-1 rounded bg-green-200">
+        {{ order.status }}
+    </span>
+
+</div>
+
+{% empty %}
+
+<div class="col-span-3 text-center bg-white p-10 rounded-2xl">
+    <h2 class="text-2xl font-bold">No Purchases Yet</h2>
+    <p class="text-gray-600 mt-2">Products you buy will appear here</p>
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

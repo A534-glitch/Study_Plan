@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bargain Product</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body { background-color:#c6aa58; }
+</style>
+</head>
+
+<body>
+
+<nav class="bg-[#FFFBF5] shadow px-6 py-4 flex justify-between items-center">
+  <a href="{% url 'student_home' %}" class="bg-green-900 text-white px-4 py-2 rounded-lg">
+    ← Back to Home
+  </a>
+  <h1 class="text-2xl font-bold text-green-900">Bargain Request</h1>
+</nav>
+
+<section class="max-w-3xl mx-auto mt-10 bg-[#FFFBF5] p-10 rounded-3xl shadow">
+
+  <img src="{{ product.image.url }}" class="h-60 w-full object-cover rounded-xl mb-6">
+
+  <h2 class="text-3xl font-bold text-green-900">{{ product.name }}</h2>
+
+  <p class="text-lg mt-2">Original Price:
+    <span class="text-orange-500 font-bold">₹{{ product.price }}</span>
+  </p>
+
+  <p class="text-sm text-gray-700 mt-1">
+    Minimum Allowed Bargain: ₹{{ min_price }} (30% rule)
+  </p>
+
+  <form method="POST" class="mt-6">
+    {% csrf_token %}
+
+    <label class="font-semibold">Enter Your Offer Price</label>
+
+    <input type="number" name="price" required
+      min="{{ min_price }}"
+      class="w-full p-3 border rounded-lg mt-2">
+
+    <button class="mt-6 w-full bg-green-900 text-white py-3 rounded-xl">
+      Send Bargain Request
+    </button>
+
+  </form>
+
+</section>
+
+</body>
+</html>

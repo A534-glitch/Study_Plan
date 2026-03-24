@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Alumni Profile | StudyShare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Fraunces&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #c6aa58;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .font-display {
+      font-family: 'Fraunces', serif;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="mb-4 p-4 rounded-lg text-center font-medium
+      {% if message.tags == 'success' %}bg-green-100 text-green-800
+      {% elif message.tags == 'error' %}bg-red-100 text-red-800
+      {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+      {% elif message.tags == 'info' %}bg-blue-100 text-blue-800
+      {% else %}bg-gray-100 text-gray-800{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] shadow px-6 py-4 flex justify-between items-center">
+
+  <a href="{% url 'alumni_home' %}"
+     class="bg-green-900 text-white px-4 py-2 rounded-lg">
+    ← Back to Home
+  </a>
+
+  <h1 class="font-display text-2xl font-bold text-green-900">
+    StudyShare
+  </h1>
+
+  <a href="{% url 'logout' %}"
+     class="bg-orange-400 text-white px-4 py-2 rounded-lg">
+    Logout
+  </a>
+
+</nav>
+
+<!-- PROFILE -->
+<section class="max-w-3xl mx-auto mt-10 bg-[#FFFBF5] p-10 rounded-3xl shadow">
+
+  <h2 class="text-3xl font-display text-green-900 mb-8 text-center">
+    Alumni Profile
+  </h2>
+
+  <div class="space-y-4 text-green-900">
+
+    <div>
+      <label class="font-semibold">Full Name</label>
+      <p class="bg-white p-3 rounded-lg mt-1">
+        {{ user.first_name }} {{ user.last_name }}
+      </p>
+    </div>
+
+    <div>
+      <label class="font-semibold">Username</label>
+      <p class="bg-white p-3 rounded-lg mt-1">
+        {{ user.username }}
+      </p>
+    </div>
+
+    <div>
+      <label class="font-semibold">Email</label>
+      <p class="bg-white p-3 rounded-lg mt-1">
+        {{ user.email }}
+      </p>
+    </div>
+
+    <div>
+      <label class="font-semibold">Graduation Year</label>
+      <p class="bg-white p-3 rounded-lg mt-1">
+        {{ user.year_of_study_from }} - {{ user.year_of_study_to }}
+      </p>
+    </div>
+
+    <div>
+      <label class="font-semibold">Course</label>
+      <p class="bg-white p-3 rounded-lg mt-1">
+        {{ user.course }}
+      </p>
+    </div>
+
+    <div>
+      <label class="font-semibold">Department</label>
+      <p class="bg-white p-3 rounded-lg mt-1">
+        {{ user.department }}
+      </p>
+    </div>
+
+    <!-- UPDATE BUTTON -->
+    <div class="text-center mt-6">
+      <a href="{% url 'alumni_update_profile' %}"
+         class="bg-green-900 text-white px-8 py-3 rounded-xl">
+        Update Profile
+      </a>
+    </div>
+
+  </div>
+
+</section>
+
+</body>
+</html>

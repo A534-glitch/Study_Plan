@@ -1,0 +1,72 @@
+<!doctype html>
+<html>
+<head>
+    <title>My Sold Products | StudyShare</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background:#c6aa58 }
+    </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] p-4 flex justify-between items-center">
+    <a href="{% url 'alumni_home' %}" class="bg-green-900 text-white px-4 py-2 rounded">
+        ← Back to Home
+    </a>
+
+    <h1 class="text-xl font-bold text-green-900">Products I Sold</h1>
+</nav>
+
+<!-- SALES LIST -->
+<div class="max-w-6xl mx-auto mt-10 grid md:grid-cols-3 gap-8">
+
+{% for order in sales %}
+
+<div class="bg-white p-6 rounded-2xl shadow">
+
+    <img src="{{ order.product.image.url }}"
+         class="h-48 w-full object-cover rounded-xl">
+
+    <h2 class="text-xl font-bold mt-4 text-green-900">
+        {{ order.product.name }}
+    </h2>
+
+    <p class="text-gray-700 mt-2">
+        Buyer: <span class="font-semibold">{{ order.student.username }}</span>
+    </p>
+
+    <p class="text-gray-700">
+        Price: <span class="text-green-700 font-bold">₹{{ order.price }}</span>
+    </p>
+
+    <p class="text-gray-600">
+        Sold On: {{ order.approved_at|date:"d M Y h:i A" }}
+    </p>
+
+    <div class="mt-4 text-center">
+        <span class="bg-green-200 text-green-900 px-4 py-2 rounded-lg">
+            Completed
+        </span>
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="col-span-3 text-center bg-white p-10 rounded-xl shadow">
+    <h2 class="text-2xl font-bold text-green-900">
+        No Sales Yet
+    </h2>
+    <p class="text-gray-600 mt-2">
+        When students buy your products, they will appear here.
+    </p>
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

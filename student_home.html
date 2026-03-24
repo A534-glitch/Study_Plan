@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Student Dashboard | Clude</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Fraunces&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #c6aa58;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .font-display {
+      font-family: 'Fraunces', serif;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="mb-4 p-4 rounded-lg text-center font-medium
+      {% if message.tags == 'success' %}bg-green-100 text-green-800
+      {% elif message.tags == 'error' %}bg-red-100 text-red-800
+      {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+      {% elif message.tags == 'info' %}bg-blue-100 text-blue-800
+      {% else %}bg-gray-100 text-gray-800{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] shadow px-6 py-4 flex justify-between items-center">
+
+  <!-- LEFT: LOGO -->
+  <h1 class="font-display text-2xl font-bold text-green-900">
+    StudyShare
+  </h1>
+
+  <!-- CENTER: NAV LINKS -->
+  <div class="hidden md:flex gap-6 text-green-800 font-medium">
+    <a href="{% url 'student_profile' %}" class="hover:text-orange-400 transition">Profile</a>
+    <a href="{% url 'search_products' %}" class="hover:text-orange-400 transition">Search Products</a>
+    <a href="{% url 'my_purchases' %}" class="hover:text-orange-400 transition"> Your Purchases</a>
+    <a href="{% url 'my_leases' %}" class="hover:text-orange-400 transition"> Your Leases</a>
+    <a href="{% url 'my_bargains' %}" class="hover:text-orange-400 transition"> Your Bargains</a>
+    <a href="{% url 'wallet' %}" class="hover:text-orange-400 transition">Wallet</a>
+  </div>
+
+  <!-- RIGHT: LOGOUT -->
+  <a href="{% url 'logout' %}" class="bg-orange-400 text-white px-4 py-2 rounded-lg">
+    Logout
+  </a>
+
+</nav>
+
+<!-- MAIN -->
+<section class="max-w-7xl mx-auto mt-10 bg-[#FFFBF5] p-10 rounded-3xl shadow">
+
+  <h2 class="text-3xl font-display text-green-900 mb-6">
+    Welcome, {{ user.first_name }} 👋
+  </h2>
+
+  <div class="grid md:grid-cols-3 gap-6">
+
+    <div class="bg-white p-6 rounded-xl shadow text-center">
+      <h3 class="font-bold text-green-900">Browse Notes</h3>
+      <p class="text-green-700 mt-2">Find notebooks and gadgets</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow text-center">
+      <h3 class="font-bold text-green-900">Bargain Prices</h3>
+      <p class="text-green-700 mt-2">Get student discounts</p>
+    </div>
+
+    <div class="bg-white p-6 rounded-xl shadow text-center">
+      <h3 class="font-bold text-green-900">Rent Materials</h3>
+      <p class="text-green-700 mt-2">Use items temporarily</p>
+    </div>
+
+  </div>
+
+</section>
+
+</body>
+</html>

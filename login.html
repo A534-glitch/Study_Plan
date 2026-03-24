@@ -1,0 +1,171 @@
+<!doctype html>
+<html lang="en" class="h-full">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Login | StudyShare</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:'DM Sans',sans-serif;
+background:#c6aa58;
+}
+
+.font-display{
+font-family:'Fraunces',serif;
+}
+</style>
+
+</head>
+
+<body class="h-full flex items-center justify-center relative">
+
+<!-- MESSAGE NOTIFICATIONS -->
+{% if messages %}
+<div class="fixed top-6 left-1/2 transform -translate-x-1/2 w-full max-w-md z-50">
+
+{% for message in messages %}
+
+<div class="auto-fade mb-3 p-4 rounded-lg text-center font-medium shadow-lg
+
+{% if message.tags == 'success' %}
+bg-green-100 text-green-800
+
+{% elif message.tags == 'error' %}
+bg-red-100 text-red-800
+
+{% elif message.tags == 'warning' %}
+bg-yellow-100 text-yellow-800
+
+{% elif message.tags == 'info' %}
+bg-blue-100 text-blue-800
+
+{% else %}
+bg-gray-100 text-gray-800
+{% endif %}
+
+">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+</div>
+
+<script>
+setTimeout(function(){
+document.querySelectorAll('.auto-fade').forEach(function(el){
+el.style.transition="opacity 1s";
+el.style.opacity="0";
+setTimeout(()=>el.remove(),1000);
+});
+},3000);
+</script>
+
+{% endif %}
+
+
+
+<!-- LOGIN CARD -->
+<div class="bg-[#FFFBF5] shadow-2xl rounded-3xl p-10 w-full max-w-md relative">
+
+<!-- BACK BUTTON -->
+<a href="{% url 'index' %}"
+class="absolute top-4 left-4 text-sm bg-green-900 text-white px-3 py-1.5 rounded-lg hover:opacity-90 transition">
+
+← Back to Home
+
+</a>
+
+
+
+<!-- LOGO -->
+<div class="flex flex-col items-center mb-8">
+
+<div class="w-12 h-12 rounded-xl bg-green-900 flex items-center justify-center text-white text-xl">
+📘
+</div>
+
+<h1 class="font-display text-2xl font-bold text-green-900 mt-3">
+StudyShare
+</h1>
+
+<p class="text-sm text-green-700 mt-1">
+Sign in to continue
+</p>
+
+</div>
+
+
+
+<!-- LOGIN FORM -->
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="mb-5">
+
+<label class="block text-sm font-medium text-green-900 mb-1">
+Username
+</label>
+
+<input
+type="text"
+name="username"
+placeholder="Enter your username"
+required
+class="w-full px-4 py-3 rounded-xl border border-green-300 bg-white focus:outline-none focus:ring-2 focus:ring-orange-400">
+
+</div>
+
+
+
+<div class="mb-6">
+
+<label class="block text-sm font-medium text-green-900 mb-1">
+Password
+</label>
+
+<input
+type="password"
+name="password"
+placeholder="Enter your password"
+required
+class="w-full px-4 py-3 rounded-xl border border-green-300 bg-white focus:outline-none focus:ring-2 focus:ring-orange-400">
+
+</div>
+
+
+
+<button
+type="submit"
+class="w-full bg-orange-400 text-white py-3 rounded-xl font-medium hover:opacity-90 transition">
+
+Sign In
+
+</button>
+
+</form>
+
+
+
+<div class="text-center mt-6 text-sm text-green-700">
+
+Don’t have an account?
+
+<a href="{% url 'registration' %}" class="text-orange-500 font-medium hover:underline">
+Register
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

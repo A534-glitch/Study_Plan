@@ -1,0 +1,100 @@
+<!doctype html>
+<html>
+<head>
+<title>Lease Requests</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>body{background:#c6aa58}</style>
+</head>
+
+<body>
+
+<!-- Messages with Auto-Fade -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="auto-fade-message mb-4 p-4 rounded-lg text-center font-medium
+      {% if message.tags == 'success' %}bg-green-100 text-green-800
+      {% elif message.tags == 'error' %}bg-red-100 text-red-800
+      {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+      {% elif message.tags == 'info' %}bg-blue-100 text-blue-800
+      {% else %}bg-gray-100 text-gray-800{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+  <script>
+    setTimeout(function() {
+      document.querySelectorAll('.auto-fade-message').forEach(function(msg) {
+        msg.style.transition = 'opacity 1s';
+        msg.style.opacity = '0';
+        setTimeout(function() { msg.remove(); }, 1000);
+      });
+    }, 3000);
+  </script>
+{% endif %}
+
+<nav class="bg-[#FFFBF5] p-4 flex justify-between">
+<a href="{% url 'alumni_home' %}" class="bg-green-900 text-white px-4 py-2 rounded">
+← Back to Home
+</a>
+<h1 class="text-xl font-bold">Lease Requests</h1>
+</nav>
+
+<div class="max-w-6xl mx-auto mt-10 space-y-10">
+
+{% for product, requests in product_requests.items %}
+
+<div class="bg-white p-6 rounded-2xl shadow">
+
+    <!-- PRODUCT -->
+    <div class="flex items-center gap-6 mb-6">
+        <img src="{{ product.image.url }}" class="w-28 h-28 rounded-xl object-cover">
+        <div>
+            <h2 class="text-2xl font-bold">{{ product.name }}</h2>
+            <p class="text-gray-600">{{ product.description|truncatechars:100 }}</p>
+        </div>
+    </div>
+
+    <!-- REQUEST LIST -->
+    <h3 class="text-lg font-semibold mb-3">Students Requested:</h3>
+
+    <div class="space-y-3">
+
+    {% for r in requests %}
+    <div class="flex justify-between items-center bg-gray-100 p-4 rounded-xl">
+
+        <div>
+            <p class="font-semibold">{{ r.student.first_name }} {{ r.student.last_name }}</p>
+            <p class="text-sm text-gray-500">{{ r.requested_at|date:"d M Y - h:i A" }}</p>
+            <span class="text-sm px-2 py-1 rounded bg-yellow-200">{{ r.status }}</span>
+        </div>
+
+        {% if r.status == "pending" %}
+        <div class="flex gap-3">
+            <a href="{% url 'approve_lease' r.id %}" class="bg-green-700 text-white px-4 py-2 rounded">
+                Accept
+            </a>
+            <a href="{% url 'reject_lease' r.id %}" class="bg-red-600 text-white px-4 py-2 rounded">
+                Reject
+            </a>
+        </div>
+        {% endif %}
+
+    </div>
+    {% endfor %}
+
+    </div>
+
+</div>
+
+{% empty %}
+
+<div class="bg-white p-10 rounded-xl text-center">
+    <h2 class="text-2xl font-bold">No Lease Requests</h2>
+    <p class="text-gray-600 mt-2">Students requests will appear here</p>
+</div>
+
+{% endfor %}
+
+</div>
+
+</body>
+</html>

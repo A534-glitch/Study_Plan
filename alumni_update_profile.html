@@ -1,0 +1,130 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Alumni Profile | StudyShare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans&family=Fraunces&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background-color: #c6aa58;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .font-display {
+      font-family: 'Fraunces', serif;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="mb-4 p-4 rounded-lg text-center font-medium
+      {% if message.tags == 'success' %}bg-green-100 text-green-800
+      {% elif message.tags == 'error' %}bg-red-100 text-red-800
+      {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+      {% elif message.tags == 'info' %}bg-blue-100 text-blue-800
+      {% else %}bg-gray-100 text-gray-800{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] shadow px-6 py-4 flex justify-between items-center">
+
+  <a href="{% url 'alumni_profile' %}"
+     class="bg-green-900 text-white px-4 py-2 rounded-lg">
+    ← Back to Profile
+  </a>
+
+  <h1 class="font-display text-2xl font-bold text-green-900">
+    Clude
+  </h1>
+
+  <a href="{% url 'logout' %}"
+     class="bg-orange-400 text-white px-4 py-2 rounded-lg">
+    Logout
+  </a>
+
+</nav>
+
+<!-- FORM -->
+<section class="max-w-3xl mx-auto mt-10 bg-[#FFFBF5] p-10 rounded-3xl shadow">
+
+  <h2 class="text-3xl font-display text-green-900 mb-8 text-center">
+    Update Alumni Profile
+  </h2>
+
+  <form method="POST">
+    {% csrf_token %}
+
+    <div class="space-y-6 text-green-900">
+
+      <!-- FIRST NAME -->
+      <div>
+        <label class="font-semibold">First Name</label>
+        <input name="first_name" value="{{ user.first_name }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- LAST NAME -->
+      <div>
+        <label class="font-semibold">Last Name</label>
+        <input name="last_name" value="{{ user.last_name }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- EMAIL -->
+      <div>
+        <label class="font-semibold">Email Address</label>
+        <input name="email" value="{{ user.email }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- YEAR FROM -->
+      <div>
+        <label class="font-semibold">Year of Study (From)</label>
+        <input name="study_from" value="{{ user.study_from }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- YEAR TO -->
+      <div>
+        <label class="font-semibold">Year of Study (To)</label>
+        <input name="study_to" value="{{ user.study_to }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- COURSE -->
+      <div>
+        <label class="font-semibold">Course</label>
+        <input name="course" value="{{ user.course }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- DEPARTMENT -->
+      <div>
+        <label class="font-semibold">Department</label>
+        <input name="department" value="{{ user.department }}"
+               class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- SAVE BUTTON -->
+      <div class="text-center mt-8">
+        <button type="submit"
+                class="bg-green-900 text-white px-8 py-3 rounded-xl">
+          Save Changes
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+</section>
+
+</body>
+</html>

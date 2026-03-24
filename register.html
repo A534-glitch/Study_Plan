@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Register | StudyShare</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Fraunces:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+body{
+font-family:'DM Sans',sans-serif;
+background:#c6aa58;
+}
+.font-display{
+font-family:'Fraunces',serif;
+}
+</style>
+
+</head>
+
+<body class="min-h-screen flex items-center justify-center p-8">
+
+<!-- MAIN CARD -->
+<div class="w-full max-w-6xl bg-[#FFFBF5] rounded-3xl shadow-2xl p-12">
+
+<div class="flex flex-col items-center mb-10">
+
+<div class="w-14 h-14 rounded-xl bg-green-900 flex items-center justify-center text-white text-2xl">
+📘
+</div>
+
+<h1 class="font-display text-3xl font-bold text-green-900 mt-3">
+StudyShare
+</h1>
+
+<p class="text-green-700">
+Create your account
+</p>
+
+</div>
+
+
+
+{% if messages %}
+{% for message in messages %}
+
+<div class="mb-6 p-4 rounded-lg text-center font-medium
+
+{% if message.tags == 'success' %}
+bg-green-100 text-green-800
+
+{% elif message.tags == 'error' %}
+bg-red-100 text-red-800
+
+{% else %}
+bg-gray-100 text-gray-800
+{% endif %}
+
+">
+
+{{ message }}
+
+</div>
+
+{% endfor %}
+{% endif %}
+
+
+
+<form method="POST">
+
+{% csrf_token %}
+
+<div class="grid grid-cols-2 gap-6">
+
+<!-- USERNAME -->
+<div>
+<label class="text-sm font-medium text-green-900">Username</label>
+<input type="text" name="username" required
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- USER TYPE -->
+<div>
+<label class="text-sm font-medium text-green-900">Register As</label>
+<select name="user_type" required
+class="w-full mt-1 p-3 border rounded-xl">
+<option value="">Select type</option>
+<option value="Student">Student</option>
+<option value="Alumni">Alumni</option>
+</select>
+</div>
+
+<!-- FIRST NAME -->
+<div>
+<label class="text-sm font-medium text-green-900">First Name</label>
+<input type="text" name="first_name" required
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- LAST NAME -->
+<div>
+<label class="text-sm font-medium text-green-900">Last Name</label>
+<input type="text" name="last_name" required
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- DEPARTMENT -->
+<div>
+<label class="text-sm font-medium text-green-900">Department</label>
+<input type="text" name="department"
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- COURSE -->
+<div>
+<label class="text-sm font-medium text-green-900">Course</label>
+<input type="text" name="course"
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- STUDY FROM -->
+<div>
+<label class="text-sm font-medium text-green-900">Year of Study From</label>
+<input type="number" name="year_from"
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- STUDY TO -->
+<div>
+<label class="text-sm font-medium text-green-900">Year of Study To</label>
+<input type="number" name="year_to"
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- PASSWORD -->
+<div>
+<label class="text-sm font-medium text-green-900">Password</label>
+<input type="password" name="password" required
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+<!-- CONFIRM PASSWORD -->
+<div>
+<label class="text-sm font-medium text-green-900">Confirm Password</label>
+<input type="password" name="confirm_password" required
+class="w-full mt-1 p-3 border rounded-xl">
+</div>
+
+</div>
+
+
+<button type="submit"
+class="w-full mt-8 bg-orange-400 text-white py-3 rounded-xl font-medium hover:opacity-90">
+
+Register
+
+</button>
+
+</form>
+
+
+<div class="text-center mt-6 text-green-700">
+
+Already have an account?
+
+<a href="{% url 'login' %}" class="text-orange-500 font-medium hover:underline">
+Login
+</a>
+
+</div>
+
+</div>
+
+</body>
+</html>

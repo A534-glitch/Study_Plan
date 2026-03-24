@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Wallet | StudyShare</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+</head>
+
+<body class="bg-[#c6aa58] min-h-screen">
+
+<!-- MESSAGE ALERTS -->
+{% if messages %}
+<div class="max-w-3xl mx-auto mt-6">
+{% for message in messages %}
+<div class="mb-3 p-3 rounded-lg text-center font-medium
+
+{% if message.tags == 'success' %}
+bg-green-100 text-green-800
+
+{% elif message.tags == 'error' %}
+bg-red-100 text-red-800
+
+{% elif message.tags == 'warning' %}
+bg-yellow-100 text-yellow-800
+
+{% elif message.tags == 'info' %}
+bg-blue-100 text-blue-800
+
+{% else %}
+bg-gray-100 text-gray-800
+{% endif %}
+
+">
+{{ message }}
+</div>
+{% endfor %}
+</div>
+{% endif %}
+
+
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] shadow px-6 py-4 flex justify-between items-center">
+
+<a href="{% url 'student_home' %}"
+class="bg-green-900 text-white px-4 py-2 rounded-lg hover:opacity-90">
+
+← Back
+
+</a>
+
+<h1 class="text-2xl font-bold text-green-900">
+My Wallet
+</h1>
+
+</nav>
+
+
+
+<!-- WALLET BALANCE -->
+<section class="max-w-3xl mx-auto mt-10 bg-[#FFFBF5] p-10 rounded-3xl shadow">
+
+<h2 class="text-3xl font-bold text-center text-green-900">
+Current Balance
+</h2>
+
+<p class="text-5xl text-center text-orange-500 font-bold mt-4">
+₹{{ wallet.balance }}
+</p>
+
+
+
+<!-- TOPUP FORM -->
+<form method="POST" action="{% url 'wallet_topup' %}" class="mt-8 flex gap-4">
+
+{% csrf_token %}
+
+<input
+type="number"
+name="amount"
+required
+placeholder="Enter amount to add"
+class="flex-1 p-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+>
+
+<button
+class="bg-green-900 text-white px-6 rounded-lg hover:opacity-90">
+
+Add Money
+
+</button>
+
+</form>
+
+</section>
+
+
+
+<!-- TRANSACTION HISTORY -->
+<section class="max-w-3xl mx-auto mt-10 bg-[#FFFBF5] p-6 rounded-3xl shadow">
+
+<h3 class="text-xl font-bold mb-4 text-green-900">
+Transaction History
+</h3>
+
+
+
+<table class="w-full text-left">
+
+<tr class="border-b font-semibold text-green-900">
+
+<td class="py-2">Date</td>
+<td>Amount</td>
+<td>Details</td>
+
+</tr>
+
+
+
+{% for t in transactions %}
+
+<tr class="border-b">
+
+<td class="py-2">
+{{ t.paid_at|date:"d M Y H:i" }}
+</td>
+
+
+{% if t.buyer == request.user %}
+
+<td class="text-red-600 font-medium">
+- ₹{{ t.amount }}
+</td>
+
+<td>
+Paid to <span class="font-semibold">{{ t.receiver.username }}</span>
+</td>
+
+{% else %}
+
+<td class="text-green-700 font-medium">
++ ₹{{ t.amount }}
+</td>
+
+<td>
+Received from <span class="font-semibold">{{ t.buyer.username }}</span>
+</td>
+
+{% endif %}
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="3" class="text-center py-4 text-gray-500">
+No transactions yet
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</section>
+
+</body>
+</html>

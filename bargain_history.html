@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Bargain Panel | StudyShare</title>
+<script src="https://cdn.tailwindcss.com"></script>
+
+<style>
+body{
+    background:#c6aa58;
+    font-family:'DM Sans',sans-serif;
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] p-4 flex justify-between items-center">
+    <a href="{% url 'student_home' %}" class="bg-green-900 text-white px-4 py-2 rounded">
+        ← Back
+    </a>
+    <h1 class="text-xl font-bold">Bargain Discussion</h1>
+</nav>
+
+
+<div class="max-w-3xl mx-auto mt-10 bg-white p-8 rounded-2xl shadow">
+
+    <h2 class="text-2xl font-bold text-center mb-6">
+        {{ bargain.product.name }}
+    </h2>
+
+    <div class="text-center mb-6">
+        <p>Original Price : <b>₹{{ bargain.product.price }}</b></p>
+    </div>
+
+
+    <!-- CHAT STYLE -->
+    <div class="space-y-4">
+
+        <!-- Student Offer -->
+        {% if bargain.student_price %}
+        <div class="bg-blue-100 p-4 rounded-xl w-fit ml-auto">
+            <p class="font-semibold">You offered</p>
+            <p class="text-lg">₹{{ bargain.student_price }}</p>
+        </div>
+        {% endif %}
+
+        <!-- Alumni Offer -->
+        {% if bargain.alumni_price %}
+        <div class="bg-green-100 p-4 rounded-xl w-fit">
+            <p class="font-semibold">Alumni countered</p>
+            <p class="text-lg">₹{{ bargain.alumni_price }}</p>
+        </div>
+        {% endif %}
+
+    </div>
+
+
+    <!-- ACTIONS -->
+    <div class="mt-10 space-y-4">
+
+        {% if bargain.status == "counter" %}
+        <form method="POST">
+            {% csrf_token %}
+
+            <label class="font-semibold">Your Counter Price</label>
+            <input type="number" name="student_counter" required
+                   class="w-full border p-3 rounded mt-2">
+
+            <button class="w-full bg-orange-500 text-white py-3 mt-4 rounded-xl">
+                Send Counter Offer
+            </button>
+        </form>
+        {% endif %}
+
+        {% if bargain.alumni_price %}
+        <a href="{% url 'accept_bargain' bargain.id %}"
+           class="block text-center bg-green-700 text-white py-3 rounded-xl">
+            Accept Final Price (₹{{ bargain.alumni_price }})
+        </a>
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>

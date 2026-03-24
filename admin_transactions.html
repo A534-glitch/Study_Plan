@@ -1,0 +1,137 @@
+<!doctype html>
+<html>
+<head>
+<title>Transactions | Admin</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{background:#c6aa58}
+</style>
+</head>
+
+<body>
+
+<!-- Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="auto-fade-message mb-4 p-4 rounded-lg text-center font-medium
+      {% if message.tags == 'success' %}bg-green-100 text-green-800
+      {% elif message.tags == 'error' %}bg-red-100 text-red-800
+      {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+      {% elif message.tags == 'info' %}bg-blue-100 text-blue-800
+      {% else %}bg-gray-100 text-gray-800{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+
+<script>
+setTimeout(function(){
+  document.querySelectorAll('.auto-fade-message').forEach(function(msg){
+      msg.style.transition='opacity 1s';
+      msg.style.opacity='0';
+      setTimeout(function(){msg.remove();},1000);
+  });
+},3000);
+</script>
+
+{% endif %}
+
+
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] p-4 flex justify-between items-center">
+
+<a href="{% url 'admin_dashboard' %}"
+class="bg-green-900 text-white px-4 py-2 rounded hover:opacity-90">
+
+← Back
+
+</a>
+
+<h1 class="text-xl font-bold text-green-900">
+Transactions
+</h1>
+
+</nav>
+
+
+
+<!-- TRANSACTION TABLE -->
+<div class="max-w-6xl mx-auto mt-10 bg-white p-6 rounded-xl shadow">
+
+<table class="w-full border">
+
+<tr class="bg-green-900 text-white">
+
+<th class="p-3">Buyer</th>
+<th class="p-3">Seller</th>
+<th class="p-3">Product</th>
+<th class="p-3">Amount</th>
+<th class="p-3">Status</th>
+<th class="p-3">Date</th>
+<th class="p-3">Type</th>
+
+</tr>
+
+
+{% for t in transactions %}
+
+<tr class="border text-center hover:bg-gray-50">
+
+<td class="p-2">
+{{ t.buyer.username }}
+</td>
+
+<td class="p-2">
+{{ t.receiver.username }}
+</td>
+
+<td class="p-2">
+{{ t.product.name }}
+</td>
+
+<td class="p-2 text-green-700 font-semibold">
+₹{{ t.amount }}
+</td>
+
+<td class="p-2">
+
+<span class="px-2 py-1 rounded text-sm
+{% if t.status == 'paid' %}
+bg-green-100 text-green-800
+{% else %}
+bg-gray-100 text-gray-800
+{% endif %}
+">
+
+{{ t.status }}
+
+</span>
+
+</td>
+
+<td class="p-2">
+{{ t.paid_at|date:"d M Y H:i" }}
+</td>
+
+<td class="p-2">
+{{ t.type }}
+</td>
+
+</tr>
+
+{% empty %}
+
+<tr>
+<td colspan="6" class="p-6 text-center text-gray-500">
+No transactions found
+</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Register Item | StudyShare</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      background-color: #c6aa58;
+      font-family: 'DM Sans', sans-serif;
+    }
+  </style>
+</head>
+
+<body>
+
+<!-- Messages -->
+{% if messages %}
+  {% for message in messages %}
+    <div class="mb-4 p-4 rounded-lg text-center font-medium
+      {% if message.tags == 'success' %}bg-green-100 text-green-800
+      {% elif message.tags == 'error' %}bg-red-100 text-red-800
+      {% elif message.tags == 'warning' %}bg-yellow-100 text-yellow-800
+      {% elif message.tags == 'info' %}bg-blue-100 text-blue-800
+      {% else %}bg-gray-100 text-gray-800{% endif %}">
+      {{ message }}
+    </div>
+  {% endfor %}
+{% endif %}
+
+<!-- NAVBAR -->
+<nav class="bg-[#FFFBF5] shadow px-6 py-4 flex justify-between items-center">
+
+  <a href="{% url 'alumni_products' %}" class="bg-green-900 text-white px-4 py-2 rounded-lg">
+    ← Back to My Products
+  </a>
+
+  <h1 class="text-2xl font-bold text-green-900">Register New Item</h1>
+
+</nav>
+
+<!-- FORM -->
+<section class="max-w-3xl mx-auto mt-10 bg-[#FFFBF5] p-10 rounded-3xl shadow">
+
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <div class="space-y-6">
+
+      <!-- NAME -->
+      <div>
+        <label class="font-semibold text-green-900">Product Name</label>
+        <input type="text" name="name" required
+          class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- DESCRIPTION -->
+      <div>
+        <label class="font-semibold text-green-900">Description</label>
+        <textarea name="description" required
+          class="w-full p-3 rounded-lg border mt-1"></textarea>
+      </div>
+
+      <!-- TYPE -->
+      <div>
+        <label class="font-semibold text-green-900">Type</label>
+        <select name="status" id="productType"
+          class="w-full p-3 rounded-lg border mt-1" onchange="togglePrice()">
+          <option value="">Select Type</option>
+          <option value="Sell">Sell</option>
+          <option value="Lease">Lease</option>
+          <option value="Sell/Lease">Sell & Lease</option>
+        </select>
+      </div>
+
+      <!-- PRICE (HIDDEN INITIALLY) -->
+      <div id="priceField" style="display:none;">
+        <label class="font-semibold text-green-900">Price (₹)</label>
+        <input type="number" name="price"
+          class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- CATEGORY -->
+      <div>
+        <label class="font-semibold text-green-900">Category</label>
+        <select name="category" class="w-full p-3 rounded-lg border mt-1">
+          <option value="Notebook">Notebook</option>
+          <option value="Gadget">Gadget</option>
+        </select>
+      </div>
+
+      <!-- IMAGE -->
+      <div>
+        <label class="font-semibold text-green-900">Upload Image</label>
+        <input type="file" name="image" required
+          class="w-full p-3 rounded-lg border mt-1">
+      </div>
+
+      <!-- BUTTON -->
+      <div class="text-center">
+        <button type="submit"
+          class="bg-green-900 text-white px-8 py-3 rounded-xl">
+          Save Item
+        </button>
+      </div>
+
+    </div>
+  </form>
+
+</section>
+
+<script>
+function togglePrice() {
+    let type = document.getElementById("productType").value;
+    let priceField = document.getElementById("priceField");
+
+    if (type === "Sell" || type === "Sell/Lease") {
+        priceField.style.display = "block";
+    } else {
+        priceField.style.display = "none";
+    }
+}
+
+/* Run when page loads */
+window.onload = function() {
+    togglePrice();
+};
+</script>
+
+</body>
+</html>
